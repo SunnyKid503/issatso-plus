@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="report-management" />
+        <module name="api-gate" />
+        <module name="notificationManagement" />
+        <module name="report-management (1)" />
+      </profile>
+      <profile name="Annotation profile for User Management Service" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="user-management" />
+        <module name="forum-management" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="api-gate" options="-parameters" />
+      <module name="forum-management" options="-parameters" />
+      <module name="notificationManagement" options="-parameters" />
+      <module name="report-management" options="-parameters" />
+      <module name="report-management (1)" options="-parameters" />
+      <module name="user-management" options="-parameters" />
+    </option>
+  </component>
+</project>

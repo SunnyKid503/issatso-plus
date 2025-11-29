@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FCM Notification Test</title>
+    <!-- Firebase App (Core) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging.js";
+
+        // Correct Firebase configuration from Firebase Console
+        const firebaseConfig = {
+            apiKey: "AIzaSyC5DI7fkR5wabcjcp8U7Pij_pd2Emm48BI",
+            authDomain: "issatso-31987.firebaseapp.com",
+            projectId: "issatso-31987",
+            storageBucket: "issatso-31987.appspot.com",
+            messagingSenderId: "749303883567",
+            appId: "1:749303883567:web:d61e206c6b9ffb0d9e63da",
+            measurementId: "G-VG8BMBVZHQ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
+
+        // Register service worker
+        navigator.serviceWorker.register('/firebase-messaging-sw.js')
+            .then((registration) => {
+                console.log('Service Worker registered:', registration.scope);
+            })
+            .catch((error) => {
+                console.error('Service Worker registration failed:', error);
+            });
+
+        async function registerToken() {
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    const token = await getToken(messaging, {
+                        vapidKey:"BFPcJ4ZhikDfqEdVaIPveGsbs45mnzuBHEqSQsRg3zoHUJiXilMWkiivT7kvDvrJIVOkKF-mjlpE7S-Xrzgwniw" // Replace with your actual VAPID key
+                    });
+                    if (token) {
+                        console.log("FCM Token:", token);
+                        alert("FCM Token: " + token);
+                    }
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+
+        onMessage(messaging, (payload) => {
+            console.log("Received message:", payload);
+            if (payload.notification) {
+                new Notification(payload.notification.title, {
+                    body: payload.notification.body,
+                    icon: '/path/to/icon.png'
+                });
+            } else if (payload.data) {
+                new Notification(payload.data.title, {
+                    body: payload.data.body,
+                    icon: '/path/to/icon.png'
+                });
+            }
+        });
+
+        registerToken();
+    </script>
+</head>
+<body>
+<h1>FCM Notification Test</h1>
+<p>Open console to see logs.</p>
+</body>
+</html>

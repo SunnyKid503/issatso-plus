@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: helmi55/issatsoplusplus_core_postgres:latest
+    container_name: issatsoplusplus_core_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app_network
+
+  rabbitmq:
+    image: helmi55/issatsoplusplus_core_rabbitmq:latest
+    container_name: issatsoplusplus_core_rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - app_network
+
+networks:
+  app_network:
+
+
+volumes:
+  postgres_data:
+  rabbitmq_data:
